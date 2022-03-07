@@ -21,9 +21,9 @@ var S3Conn = null;
 var settings = {
 	"accessKeyId": false,
 	"secretAccessKey": false,
-	"region": process.env.AWS_DEFAULT_REGION || "us-east-1",
+	"region": process.env.AWS_DEFAULT_REGION || "us-west-004",
 	"bucket": process.env.S3_UPLOADS_BUCKET || undefined,
-	"host": process.env.S3_UPLOADS_HOST || "s3.amazonaws.com",
+	"host": process.env.S3_UPLOADS_HOST || "f004.backblazeb2.com/file",
 	"path": process.env.S3_UPLOADS_PATH || undefined
 };
 
@@ -320,7 +320,7 @@ function uploadToS3(filename, err, buffer, callback) {
 		}
 
 		// amazon has https enabled, we use it by default
-		var host = "https://" + params.Bucket +".s3.amazonaws.com";
+		var host = "https://" + params.Bucket +".s3." + settings.region + ".backblazeb2.com";
 		if (settings.host && 0 < settings.host.length) {
 			host = settings.host;
 			// host must start with http or https
