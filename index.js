@@ -21,7 +21,7 @@ var S3Conn = null;
 var settings = {
 	"accessKeyId": false,
 	"secretAccessKey": false,
-	"region": process.env.AWS_DEFAULT_REGION || "us-west-004",
+	"region": "us-west-004",
 	"bucket": process.env.S3_UPLOADS_BUCKET || undefined,
 	"host": process.env.S3_UPLOADS_HOST || "f004.backblazeb2.com/file",
 	"path": process.env.S3_UPLOADS_PATH || undefined
@@ -102,9 +102,8 @@ function fetchSettings(callback) {
 
 function S3() {
 	if (!S3Conn) {
-		var ep = new AWS.Endpoint('s3.' + settings.region + '.backblazeb2.com');
-		var s3 = new AWS.S3({endpoint: ep});
-		S3Conn = new AWS.S3();
+		var ep = new AWS.Endpoint('s3.us-west-004.backblazeb2.com');
+		S3Conn = new AWS.S3({endpoint: ep});
 	}
 
 	return S3Conn;
@@ -321,15 +320,7 @@ function uploadToS3(filename, err, buffer, callback) {
 			return callback(makeError(err));
 		}
 
-		// amazon has https enabled, we use it by default
-		var host = "https://" + params.Bucket +".s3." + settings.region + ".backblazeb2.com";
-		if (settings.host && 0 < settings.host.length) {
-			host = settings.host;
-			// host must start with http or https
-			if (!host.startsWith("http")) {
-				host = "http://" + host;
-			}
-		}
+		var host = "https://b2.urcdn.eu/file/urcdneu";
 
 		callback(null, {
 			name: filename,
