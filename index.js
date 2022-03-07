@@ -102,6 +102,8 @@ function fetchSettings(callback) {
 
 function S3() {
 	if (!S3Conn) {
+		var ep = new AWS.Endpoint('s3.' + settings.region + '.backblazeb2.com');
+		var s3 = new AWS.S3({endpoint: ep});
 		S3Conn = new AWS.S3();
 	}
 
