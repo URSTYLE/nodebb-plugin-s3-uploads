@@ -227,7 +227,7 @@ plugin.uploadImage = function (data, callback) {
 			return callback(new Error("invalid image path"));
 		}
 
-		if (allowedMimeTypes.indexOf(mime.lookup(image.path)) === -1) {
+		if (allowedMimeTypes.indexOf(mime.getType(image.path)) === -1) {
 			return callback(new Error("invalid mime type"));
 		}
 
@@ -236,7 +236,7 @@ plugin.uploadImage = function (data, callback) {
 		});
 	}
 	else {
-		if (allowedMimeTypes.indexOf(mime.lookup(image.url)) === -1) {
+		if (allowedMimeTypes.indexOf(mime.getType(image.url)) === -1) {
 			return callback(new Error("invalid mime type"));
 		}
 		var filename = image.url.split("/").pop();
@@ -312,7 +312,7 @@ function uploadToS3(filename, err, buffer, callback) {
 		Key: s3KeyPath + uuid() + path.extname(filename),
 		Body: buffer,
 		ContentLength: buffer.length,
-		ContentType: mime.lookup(filename)
+		ContentType: mime.getType(filename)
 	};
 
 	S3().putObject(params, function (err) {
